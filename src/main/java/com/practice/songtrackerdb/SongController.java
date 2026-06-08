@@ -9,23 +9,26 @@ import java.util.List;
 public class SongController {
 
     private final SongRepos repos;
+    private final SongsService songsService;
+
     public SongController(SongRepos repos) {
         this.repos = repos;
+        this.songsService = new SongsService(repos);
     }
 
     @GetMapping
     public List<Song> getSongs() {
-        return repos.findAll();
+        return songsService.getSongs();
     }
 
     @PostMapping
     public void saveSong(@RequestBody Song song) {
-        repos.save(song);
+        songsService.addSong(song);
     }
 
     @DeleteMapping("/{id}")
     public void deleteSong(@PathVariable Long id) {
-        repos.deleteById(id);
+        songsService.deleteSong(id);
     }
 
 }
